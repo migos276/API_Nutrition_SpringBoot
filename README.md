@@ -33,11 +33,13 @@ Une application Spring Boot pour la détection et l'analyse des allergies alimen
 
 ### 1. Cloner le projet
 ```bash
-git clone <url-du-projet>
-cd allergy-detection-app
+   git clone https://github.com/migos276/API_Nutrition_SpringBoot.git
 ```
+```  
+pour peuple la base de donnee taper la commande bash donnee.sh
 
-### 2. Configuration de la base de données
+```
+### 2. Configuration de la base de données( optionel car la l'application possede deja la base donnee H2)
 Modifier le fichier `application.properties` :
 ```properties
 # PostgreSQL Configuration
@@ -55,16 +57,8 @@ spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=10MB
 app.upload.dir=./uploads/
 ```
-
-### 3. Lancer l'application
-```bash
-mvn spring-boot:run
-```
-
 L'application sera accessible sur : `http://localhost:8080`
 
-### 4. Documentation API
-Swagger UI disponible sur : `http://localhost:8080/swagger-ui/index.html`
 
 ## 📡 Endpoints principaux
 
@@ -287,18 +281,8 @@ Pour toute question ou problème :
 - **Base URL**: `http://localhost:8080/api`
 - **Content-Type**: `application/json`
 
-## Variables d'environnement suggérées
-```json
-{
-  "base_url": "http://localhost:8080/api",
-  "user_id": "1",
-  "food_id": "1",
-  "meal_id": "1",
-  "symptom_id": "1",
-  "buffet_id": "1"
-}
+```pour peuple la base de donnee taper la commande bash donnee.sh
 ```
-
 ---
 
 ## 1. HEALTH CHECK
