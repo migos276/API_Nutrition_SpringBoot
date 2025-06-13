@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "app.media.storage-path",
+      "type": "java.lang.String",
+      "description": "A description for 'app.media.storage-path'"
+    },
+    {
+      "name": "app.media.max-file-size",
+      "type": "java.lang.String",
+      "description": "A description for 'app.media.max-file-size'"
+    },
+    {
+      "name": "app.media.storage-path",
+      "type": "java.lang.String",
+      "description": "A description for 'app.media.storage-path'"
+    }
+  ]
+}

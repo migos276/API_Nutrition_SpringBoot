@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: allergy-detection-app
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:allergy
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_JPA_SHOW_SQL=true
+    networks:
+      - food-app-network
+    volumes:
+      - h2_data:/opt/h2-data
+
+volumes:
+  h2_data:
+    name: allergy-detection-h2-data
+
+networks:
+  food-app-network:
+    name: allergy-detection-network
