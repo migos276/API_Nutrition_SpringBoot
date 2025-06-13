@@ -21,7 +21,6 @@ public class FoodController {
 
     @Autowired
     private FoodService foodService;
-
     @PostMapping
     @Operation(summary = "Create a new food")
     public ResponseEntity<Map<String, Object>> createFood(@Valid @RequestBody CreateFoodRequest request) {

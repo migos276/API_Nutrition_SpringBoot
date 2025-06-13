@@ -1,7 +1,7 @@
 package com.allergydetection.controller;
-
 import com.allergydetection.dto.UserDto;
 import com.allergydetection.service.UserService;
+import com.allergydetection.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -86,24 +86,36 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete user")
-    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id, @RequestParam(defaultValue = "false") boolean confirm) {
+@Operation(summary = "Delete user")
+public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id, 
+                                                     @RequestParam(defaultValue = "false") boolean confirm) {
+    Map<String, Object> response = new HashMap<>();
+    
+    try {
+        // Vérifier d'abord la confirmation
         if (!confirm) {
-            Map<String, Object> response = new HashMap<>();
             response.put("error", "Suppression non confirmée");
             response.put("message", "Ajoutez ?confirm=true pour confirmer la suppression");
             response.put("warning", "Cette action supprimera définitivement toutes les données de l'utilisateur");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
+        // Récupérer l'utilisateur (peut lever une exception si introuvable)
         UserDto user = userService.getUserById(id);
+        String username = user.getUsername(); // Sauvegarder juste le nom
+        // Supprimer l'utilisateur
         userService.deleteUser(id);
-        
-        Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("message", "Utilisateur " + user.getUsername() + " supprimé avec succès");
-        response.put("deleted_user", user);
-        
+        response.put("message", "Utilisateur " + username + " supprimé avec succès");
+        response.put("deleted_user_id", id); // Retourner seulement l'ID
         return ResponseEntity.ok(response);
+    } catch (UserNotFoundException e) {
+        response.put("error", "Utilisateur introuvable");
+        response.put("message", "Aucun utilisateur trouvé avec l'ID " + id);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+        response.put("error", "Erreur lors de la suppression");
+        response.put("message", "Une erreur inattendue s'est produite");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
 }
